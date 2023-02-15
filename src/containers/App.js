@@ -7,27 +7,17 @@ import './App.css'
 
 
 const App = () => {
-    // constructor() {
-    //     super();
-    //     this.state = {
-    //         robots: [],
-    //         searchField: ''
-    //     }
-    // }
+
     const [robots, setRobots] = useState([]);
     const [searchField, setSearchField] = useState('');
-
-    // componentDidMount() {
-    //     fetch('https://jsonplaceholder.typicode.com/users')
-    //         .then(response => response.json())
-    //         .then(users => this.setState({ robots: users }));
-    // }
+    const [count, setCount] = useState(0);
 
     useEffect(() => {
         fetch('https://jsonplaceholder.typicode.com/users')
             .then(response => response.json())
             .then(users => setRobots(users));
-    }, []);
+        console.log(count);
+    }, [count]);      //useEffect Hook akan dijalankan ketika ada dependencies yg berubah tiap kali aplikasi di mount ulang
 
     const onSearchChange = (e) => {
         setSearchField(e.target.value);
@@ -46,6 +36,7 @@ const App = () => {
             (
                 <div className="tc">
                     <h1 className='f2'>Robofriends</h1>
+                    <button onClick={() => setCount(count + 1)}>Click ME!</button>
                     <SearchBox searchChange={onSearchChange} />
                     <Scrollbar>
                         <Cardlist robots={filteredRobots} />
