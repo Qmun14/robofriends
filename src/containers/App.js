@@ -6,7 +6,7 @@ import SearchBox from '../components/SearchBox';
 import './App.css'
 
 
-const App = () => {
+const App = (props) => {
 
     const [robots, setRobots] = useState([]);
     const [searchField, setSearchField] = useState('');
