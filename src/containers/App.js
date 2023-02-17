@@ -1,27 +1,28 @@
 import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import Cardlist from '../components/Cardlist';
 import Scrollbar from '../components/Scrollbar';
 import SearchBox from '../components/SearchBox';
 
+
 import './App.css'
 
+const App = () => {
 
-const App = (props) => {
+    const searchField = useSelector(state => state.searchField);
+    const dispatch = useDispatch();
 
     const [robots, setRobots] = useState([]);
-    const [searchField, setSearchField] = useState('');
-    const [count, setCount] = useState(0);
 
     useEffect(() => {
         fetch('https://jsonplaceholder.typicode.com/users')
             .then(response => response.json())
             .then(users => setRobots(users));
-        console.log(count);
-    }, [count]);      //useEffect Hook akan dijalankan ketika ada dependencies yg berubah tiap kali aplikasi di mount ulang
+    }, []);
 
-    const onSearchChange = (e) => {
-        setSearchField(e.target.value);
-    }
+    const onSearchChange = event => {
+        dispatch({ type: 'SET_SEARCH_FIELD', payload: event.target.value });
+    };
 
     {
         const filteredRobots = robots.filter((robot) => {
@@ -36,7 +37,6 @@ const App = (props) => {
             (
                 <div className="tc">
                     <h1 className='f2'>Robofriends</h1>
-                    <button onClick={() => setCount(count + 1)}>Click ME!</button>
                     <SearchBox searchChange={onSearchChange} />
                     <Scrollbar>
                         <Cardlist robots={filteredRobots} />
